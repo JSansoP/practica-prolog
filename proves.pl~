@@ -1,0 +1,5 @@
+elements([],0).
+elements([_|Y],N):-elements(Y,N1), N is N1+1.
+
+pertany(X,[X|_]).
+pertany(X,[Y|L]):-pertany(X,L).
