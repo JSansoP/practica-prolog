@@ -22,20 +22,22 @@ repetides([X|Y]):-
     reverse(X,A),
     member(A,Y),!.
 
+mostra([], _, _, _).
 
 mostra([X|Y], F, C, horitzontal):-
     gotoXY(F, C),
-    escriu(X,blau),
-    C1 is C+3,
-    mostra(Y, F, C1, horitzontal), true.
+    escriu(X, blau),
+    C1 is C+2,
+    mostra(Y, F, C1, horitzontal).
 
 mostra([X|Y], F, C, vertical):-
     gotoXY(F, C),
-    escriu(X,vermell),
+    escriu(X, vermell),
     F1 is F+2,
-    mostra(Y, F1, C, vertical), true.
+    mostra(Y, F1, C, vertical).
 
 creuats():-
+  cls,
   paraula(PH1),
   length(PH1, 7),
 
@@ -121,39 +123,41 @@ creuats():-
   not(repetides([PH1, PH2, PH3, PH4, PH5, PH6, PH7, PV1, PV2, PV3, PV4, PV5, PV6, PV7])),
   nth1(1,PV7,M),
   nth1(1,PH6,M),
-  nl,nl,nl,nl,
-  write(PH1),
-  write(PH2),
-  write(PH3),
-  write(PH4),
-  write(PH5),
-  write(PH6),
-  write(PH7),
-  write(PV1),
-  write(PV2),
-  write(PV3),
-  write(PV4),
-  write(PV5),
-  write(PV6),
-  write(PV7), fail,
-    nl,nl,nl,
-  % mostra(PH1, 1, 8, horitzontal),
-  mostra(PH2, 7, 10, horitzontal),
-  mostra(PH3, 30, 8, horitzontal),
-  mostra(PH4, 36, 5, horitzontal),
-  mostra(PH5, 16, 3, horitzontal),
-  mostra(PH6, 10, 1, horitzontal),
-  mostra(PH7, 30, 2, horitzontal),
-  mostra(PV1, 1, 12, vertical),
-  mostra(PV2, 24, 14, vertical),
-  mostra(PV3, 16, 10, vertical),
-  mostra(PV4, 7, 8, vertical),
-  mostra(PV5, 4, 6, vertical),
-  mostra(PV6, 16, 3, vertical),
-  mostra(PV7, 10, 1, vertical).
+
+  mostra(PH1, 1, 15, horitzontal),
+  mostra(PH2, 5, 19, horitzontal),
+  mostra(PH3, 21, 15,horitzontal),
+  mostra(PH4, 25, 9, horitzontal),
+  mostra(PH5, 11, 5, horitzontal),
+  mostra(PH6, 7, 1, horitzontal),
+  mostra(PH7, 21, 3, horitzontal),
+  mostra(PV1, 1, 23, vertical),
+  mostra(PV2, 17, 27, vertical),
+  mostra(PV3, 11, 19, vertical),
+  mostra(PV4, 5, 15, vertical),
+  mostra(PV5, 3, 11, vertical),
+  mostra(PV6, 11, 5, vertical),
+  mostra(PV7, 7, 1, vertical).
+
+%   mostra(PH1, 1, 15,horitzontal),
+%   mostra(PH2, 7, 19,horitzontal),
+%   mostra(PH3, 31, 15,horitzontal),
+%   mostra(PH4, 37, 9,horitzontal),
+%   mostra(PH5, 16, 5,horitzontal),
+%   mostra(PH6, 10,1,horitzontal),
+%   mostra(PH7, 31, 3,horitzontal),
+%   mostra(PV1, 1, 23, vertical),
+%   mostra(PV2, 25, 27, vertical),
+%   mostra(PV3, 16,19, vertical),
+%   mostra(PV4, 7, 15, vertical),
+%   mostra(PV5, 4, 11, vertical),
+%   mostra(PV6, 16,5, vertical),
+%   mostra(PV7, 10, 1, vertical).
     % nl.
+
 
 
 
 % delete first item in list
 % first([X|Xs], Xs).
+creauts2().
