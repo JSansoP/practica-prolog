@@ -3,7 +3,7 @@
 
 
 :-consult(auxiliar).
-% :-consult(diccionari).
+
 paraula(X):-
     member(Y,[democracia, encontrarse, emboscar, abordaje, convexo, evadirse, elevarse, escuela, cuerpo, jugar, juicio, error, vicio, rea]),
     atom_chars(Y,X).
