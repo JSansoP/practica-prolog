@@ -1,18 +1,47 @@
-% the method paraula receivs a list of atoms and returns every atom parsed
-% paraula([],0).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%               Práctica 2 -  Llenguatges de Programació (2721)               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+                        %%%%%%%%% ALUMNES %%%%%%%%%
+                        %   Joan Sansó Pericàs    %
+                        %   Joan Vilella Candia   %
+                        %   Julián Wallis Medina  %
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+                        %%%%%%% PROFESSORS %%%%%%%%
+                        %   Dr. Ramon Mas Sansó   %
+                        %   Dra. Xisca Roig Maimó %
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Hem duit a terme la segona pràctica de l'assignatura, que consisteix en
+% escriure una serie de predicats per resoldre el joc dels mots creuats sobre un
+% tauler de joc, predefinit.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Llegim les clausules del fitxer auxiliar proporcionat pels professors.
 :-consult(auxiliar).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Predicats corresponents a l'apartat 1.
+% Ens retorna una llista de paraules, tant a l'endret com al revés
 paraula(X):-
-    member(Y,[democracia, encontrarse, emboscar, abordaje, convexo, evadirse, elevarse, escuela, cuerpo, jugar, juicio, error, vicio, rea]),
+    member(Y,[democracia, encontrarse, emboscar, abordaje, convexo, evadirse,
+         elevarse, escuela, cuerpo, jugar, juicio, error, vicio, rea]),
     atom_chars(Y,X).
 
 paraula(X):-
-    member(Y,[democracia, encontrarse, emboscar, abordaje, convexo, evadirse, elevarse, escuela, cuerpo, jugar, juicio, error, vicio, rea]),
+    member(Y,[democracia, encontrarse, emboscar, abordaje, convexo, evadirse,
+         elevarse, escuela, cuerpo, jugar, juicio, error, vicio, rea]),
     atom_chars(Y,Z),
     reverse(Z,X).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Predicats corresponents a l'apartat 5.
+% Ens retorna una llista de paraules, provenint del fitxer diccionari.
+% Les paraules poden ser nom comuns, adjectius i verbs.
+% Les paraules poden estar tant a l'endret com al revés.
 paraula2(X):-
     paraula(_,_,P,nom,comu,_,_,_,_,_,_,_,_,_,_),
     atom_chars(P,X);
@@ -30,32 +59,51 @@ paraula2(X):-
     reverse(Z,X);
     paraula(_,_,P,verb,_,_,_,_,_,_,_,_,_,_,_),
     atom_chars(P,Z),
-    reverse(Z,X). 
+    reverse(Z,X).
 
-% Repetides es clausula que recibe una lista de atomos y devuelve true si hay algun elemento repetido en la lista
-% Falta chequear que no haya ningun elemento repetido al reves
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Predicats corresponent a l'apartat 2
+% Retorna veritat si dins una llista de paraules n'hi ha colcuna de repetida.
+% També comprobam que no hi hagi paraules repetides al revés.
 repetides([X|Y]):- member(X,Y),!.
-
 repetides([_|Y]):- repetides(Y),!.
-
 repetides([X|Y]):-
     reverse(X,A),
     member(A,Y),!.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Predicats corresponents a l'apartat 3.
+% Donada una paraula, una posició a la pantalla i la seva orientació, mostra
+% per pantalla dita paraula en la posició i orientació indicada.
+% Si la paraula és horitzontal es mostra de color blau i si és vertical de
+% color vermell.
+% Per dur a terme això hem emprat dues clausules auxiliars: gotoXY(F, C) i
+% escriu(X, color).
+% Hem cambiat el espaiat respecte al que se'ns indica en l'enunciat, ja que
+% a la nostra pantalla es veia massa espaiat (Pot ser que això sigui degut a
+% la font del text).
 mostra([], _, _, _).
-
 mostra([X|Y], F, C, horitzontal):-
     gotoXY(F, C),
     escriu(X, blau),
     C1 is C+2,
     mostra(Y, F, C1, horitzontal).
-
 mostra([X|Y], F, C, vertical):-
     gotoXY(F, C),
     escriu(X, vermell),
     F1 is F+2,
     mostra(Y, F1, C, vertical).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Predicat corresponents a l'apartat 4.
+% Resol el puzzle dels mots creuats amb les paraules definides.
+% Hem seguit la següent mecànica:
+% 1. Agafam una paraula
+% 2. Ens asseguram que és de la mida correcta
+% 3. Ens asseguram que no estigui repetida.
+% 4. Ens asseguram que cumpleix les restriccions d'encreuament amb les altres
+%    paraules.
+% Un pic les tenim totes les mostram per pantalla.
 creuats:-
   cls,
   paraula(PH1),
@@ -144,6 +192,7 @@ creuats:-
   nth1(1,PV7,M),
   nth1(1,PH6,M),
 
+  % Mostram les paraules
   mostra(PH1, 1, 15, horitzontal),
   mostra(PH2, 5, 19, horitzontal),
   mostra(PH3, 21, 15,horitzontal),
@@ -158,32 +207,28 @@ creuats:-
   mostra(PV5, 3, 11, vertical),
   mostra(PV6, 11, 5, vertical),
   mostra(PV7, 7, 1, vertical),
+
+  % Pintam les lletres creuades de color lila (vermell + blau = lila)
+  gotoXY(1, 23), escriu(A, lila),
+  gotoXY(5, 23), escriu(B, lila),
+  gotoXY(21, 23), escriu(C, lila),
+  gotoXY(21, 27), escriu(D, lila),
+  gotoXY(21, 19), escriu(E, lila),
+  gotoXY(25, 19), escriu(F, lila),
+  gotoXY(11, 19), escriu(G, lila),
+  gotoXY(11, 15), escriu(H, lila),
+  gotoXY(11, 11), escriu(I, lila),
+  gotoXY(11, 5), escriu(J, lila),
+  gotoXY(7, 11), escriu(K, lila),
+  gotoXY(21, 5), escriu(L, lila),
+  gotoXY(7, 1), escriu(M, lila),
+
   gotoXY(30,0).
 
-
-
-%   mostra(PH1, 1, 15,horitzontal),
-%   mostra(PH2, 7, 19,horitzontal),
-%   mostra(PH3, 31, 15,horitzontal),
-%   mostra(PH4, 37, 9,horitzontal),
-%   mostra(PH5, 16, 5,horitzontal),
-%   mostra(PH6, 10,1,horitzontal),
-%   mostra(PH7, 31, 3,horitzontal),
-%   mostra(PV1, 1, 23, vertical),
-%   mostra(PV2, 25, 27, vertical),
-%   mostra(PV3, 16,19, vertical),
-%   mostra(PV4, 7, 15, vertical),
-%   mostra(PV5, 4, 11, vertical),
-%   mostra(PV6, 16,5, vertical),
-%   mostra(PV7, 10, 1, vertical).
-    % nl.
-
-
-
-
-% delete first item in list
-% first([X|Xs], Xs).
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Predicat corresponent a l'apartat 5.
+% Seguim la mateixa mecànica que per l'apartat 4, però ara les paraules son
+% creades amb la clausula paraula2, que ens agafa paraules del fitxer diccionari
 creuats2:-
   cls,
   paraula2(PH1),
@@ -285,6 +330,23 @@ creuats2:-
   mostra(PV5, 3, 11, vertical),
   mostra(PV6, 11, 5, vertical),
   mostra(PV7, 7, 1, vertical),
+
+  % Pintam les lletres creuades de color lila (vermell + blau = lila)
+  gotoXY(1, 23), escriu(A, lila),
+  gotoXY(5, 23), escriu(B, lila),
+  gotoXY(21, 23), escriu(C, lila),
+  gotoXY(21, 27), escriu(D, lila),
+  gotoXY(21, 19), escriu(E, lila),
+  gotoXY(25, 19), escriu(F, lila),
+  gotoXY(11, 19), escriu(G, lila),
+  gotoXY(11, 15), escriu(H, lila),
+  gotoXY(11, 11), escriu(I, lila),
+  gotoXY(11, 5), escriu(J, lila),
+  gotoXY(7, 11), escriu(K, lila),
+  gotoXY(21, 5), escriu(L, lila),
+  gotoXY(7, 1), escriu(M, lila),
+
+
   gotoXY(30,0).
 
 
