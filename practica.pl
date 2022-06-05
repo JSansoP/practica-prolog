@@ -1,29 +1,29 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%==============================================================================
 %               Práctica 2 -  Llenguatges de Programació (2721)               %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%==============================================================================
 
-                        %%%%%%%%% ALUMNES %%%%%%%%%
+                        %======== ALUMNES ========%
                         %   Joan Sansó Pericàs    %
                         %   Joan Vilella Candia   %
                         %   Julián Wallis Medina  %
-                        %%%%%%%%%%%%%%%%%%%%%%%%%%%
+                        %=========================%
 
-                        %%%%%%% PROFESSORS %%%%%%%%
+                        %====== PROFESSORS =======%
                         %   Dr. Ramon Mas Sansó   %
                         %   Dra. Xisca Roig Maimó %
-                        %%%%%%%%%%%%%%%%%%%%%%%%%%%
+                        %=========================%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%==============================================================================
 % Hem duit a terme la segona pràctica de l'assignatura, que consisteix en
 % escriure una serie de predicats per resoldre el joc dels mots creuats sobre un
 % tauler de joc, predefinit.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%==============================================================================
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%==============================================================================
 % Llegim les clausules del fitxer auxiliar proporcionat pels professors.
 :-consult(auxiliar).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%==============================================================================
 % Predicats corresponents a l'apartat 1.
 % Ens retorna una llista de paraules, tant a l'endret com al revés
 paraula(X):-
@@ -37,7 +37,7 @@ paraula(X):-
     atom_chars(Y,Z),
     reverse(Z,X).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%==============================================================================
 % Predicats corresponents a l'apartat 5.
 % Ens retorna una llista de paraules, provenint del fitxer diccionari.
 % Les paraules poden ser nom comuns, adjectius i verbs.
@@ -61,17 +61,20 @@ paraula2(X):-
     atom_chars(P,Z),
     reverse(Z,X).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%==============================================================================
 % Predicats corresponent a l'apartat 2
-% Retorna veritat si dins una llista de paraules n'hi ha colcuna de repetida.
-% També comprobam que no hi hagi paraules repetides al revés.
+% Retorna veritat si dins una llista de paraules n'hi ha qualcuna de repetida.
+% També comprovam que no hi hagi paraules repetides al revés.
 repetides([X|Y]):- member(X,Y),!.
-repetides([_|Y]):- repetides(Y),!.
+
 repetides([X|Y]):-
     reverse(X,A),
     member(A,Y),!.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+repetides([_|Y]):- repetides(Y),!.
+
+
+%==============================================================================
 % Predicats corresponents a l'apartat 3.
 % Donada una paraula, una posició a la pantalla i la seva orientació, mostra
 % per pantalla dita paraula en la posició i orientació indicada.
@@ -94,7 +97,7 @@ mostra([X|Y], F, C, vertical):-
     F1 is F+2,
     mostra(Y, F1, C, vertical).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%==============================================================================
 % Predicat corresponents a l'apartat 4.
 % Resol el puzzle dels mots creuats amb les paraules definides.
 % Hem seguit la següent mecànica:
@@ -225,7 +228,7 @@ creuats:-
 
   gotoXY(30,0).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%==============================================================================
 % Predicat corresponent a l'apartat 5.
 % Seguim la mateixa mecànica que per l'apartat 4, però ara les paraules son
 % creades amb la clausula paraula2, que ens agafa paraules del fitxer diccionari
